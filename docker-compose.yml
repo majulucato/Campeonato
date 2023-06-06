@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+  db:
+    image: postgres
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: dbteste
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+    ports:
+    - "5432:5432"
+    volumes:
+      - postgres:/data/campeonato
+    networks:
+      - postgres
+    restart: always
+networks:
+  postgres:
+    driver: bridge
+volumes:
+  postgres:
