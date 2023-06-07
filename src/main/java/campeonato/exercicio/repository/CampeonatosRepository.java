@@ -7,6 +7,6 @@ public interface CampeonatosRepository extends JpaRepository<Campeonatos, Intege
 
     boolean existsByNomeAndAno(String nome,Integer ano);
 
-    boolean existsByTime(String time);
+    //boolean existsByTime(String time);
 
 }

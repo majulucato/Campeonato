@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CampeonatosService {
@@ -29,11 +27,11 @@ public class CampeonatosService {
 
     public Campeonatos save(CampeonatoPostRequestBody campeonatoPostRequestBody) {
         SameId_Ano(campeonatoPostRequestBody);
-        SameTime(campeonatoPostRequestBody);
+        //SameTime(campeonatoPostRequestBody);
         return getCampeonatosRepository().save(Campeonatos.builder().nome(campeonatoPostRequestBody.getNome())
                 .ano(campeonatoPostRequestBody.getAno())
                 .status(campeonatoPostRequestBody.getStatus()).build());
-    }//.times(campeonatoPostRequestBody.getTimes())
+    }
 
     public void delete(int id) {
         getCampeonatosRepository().delete(findByIdOrThrowBackBadRequestException(id));
@@ -42,8 +40,7 @@ public class CampeonatosService {
     public void replace(CampeonatoPutRequestBody campeonatoPutRequestBody) {
         Campeonatos campSalvo = findByIdOrThrowBackBadRequestException(campeonatoPutRequestBody.getId());
         Campeonatos campeonatos = Campeonatos.builder().id(campSalvo.getId()).nome(campeonatoPutRequestBody.getNome()).ano(campeonatoPutRequestBody.getAno())
-                .timeMand(campeonatoPutRequestBody.getTimeMand())
-                .timeVisit(campeonatoPutRequestBody.getTimeVisit()).status(campeonatoPutRequestBody.getStatus()).build();
+                .status(campeonatoPutRequestBody.getStatus()).build();
         getCampeonatosRepository().save(campeonatos);
     }
 
@@ -54,11 +51,11 @@ public class CampeonatosService {
         return null;
     }
 
-    public void SameTime(CampeonatoPostRequestBody campeonatoPostRequestBody) {
+    /*public void SameTime(CampeonatoPostRequestBody campeonatoPostRequestBody) {
         if (getCampeonatosRepository().existsByTime(String.valueOf(campeonatoPostRequestBody.getTimes()))){
             new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time já cadastrado no campeonato:"+ campeonatoPostRequestBody.getTimes()+"\n");
         }
-    }
+    }*/
 
     public Page<Campeonatos> listAll(Pageable pageable) {
         return getCampeonatosRepository().findAll(pageable);

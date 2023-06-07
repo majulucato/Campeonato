@@ -23,7 +23,7 @@ public class Campeonatos {
     @NonNull
     @Column(name = "ano")
     private Integer ano;
-    @Column(name = "status", nullable = false,  columnDefinition = "0")
-    private boolean status;  //  1-Iniciado   0-Finalizado
+    @Column(name = "status", nullable = false)
+    private Boolean status;  //  1-Iniciado   0-Finalizado
 
 }

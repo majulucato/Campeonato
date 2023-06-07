@@ -7,14 +7,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: admin
     password: 123456
-    validationQuery: SELECT 1
     testWhileIdle: true
 
   jpa:
     hibernate:
       ddl-auto: update
       show-sql: true
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
     properties:

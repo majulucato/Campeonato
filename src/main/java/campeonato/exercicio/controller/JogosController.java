@@ -4,7 +4,6 @@ import campeonato.exercicio.domain.Jogos;
 import campeonato.exercicio.request.JogosPostRequestBody;
 import campeonato.exercicio.request.JogosPutRequestBody;
 import campeonato.exercicio.service.JogosService;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("jogos")
-@Log4j2
 public class JogosController {
     private final JogosService jogosService;
     public JogosController(JogosService jogosService) {this.jogosService = jogosService;}
