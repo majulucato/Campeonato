@@ -20,7 +20,7 @@ public class JogoController {
         return ResponseEntity.ok(getJogosService().listAll());
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Jogo> findById(@PathVariable Integer id){
+    public ResponseEntity<Jogo> findById(@PathVariable Long id){
         return ResponseEntity.ok(getJogosService().findByIdOrThrowBackBadRequestException(id));
     }
     @PostMapping
@@ -28,7 +28,7 @@ public class JogoController {
         return ResponseEntity.ok(getJogosService().save(jogoPostRequestBody));
     }
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         getJogosService().delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

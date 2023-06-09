@@ -22,8 +22,8 @@ public class JogoService {
     public List<Jogo> listAll() {
         return getJogoRepository().findAll();
     }
-    public Jogo findByIdOrThrowBackBadRequestException(Integer id) {
-        return getJogoRepository().findById(id)
+    public Jogo findByIdOrThrowBackBadRequestException(Long id) {
+        return getJogoRepository().findById(Math.toIntExact(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Partida não encontrada"));
     }
     public Jogo save(JogoPostRequestBody jogoPostRequestBody) {
@@ -32,7 +32,7 @@ public class JogoService {
                 .timeMandante(jogoPostRequestBody.getTimeMandante()).timeVisitante(jogoPostRequestBody.getTimeVisitante())
                 .campeonato(jogoPostRequestBody.getCampeonato()).build());
     }
-    public void delete(int id) {
+    public void delete(Long id) {
         getJogoRepository().delete(findByIdOrThrowBackBadRequestException(id));}
     public void replace(JogoPutRequestBody jogoPutRequestBody) {
         Jogo partidaSalva = findByIdOrThrowBackBadRequestException(jogoPutRequestBody.getId());

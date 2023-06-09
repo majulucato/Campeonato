@@ -25,7 +25,7 @@ public class CampeonatoController {
         return ResponseEntity.ok(campeonatoService.listAll(pageable));
     }
     @GetMapping(path = "/{id}")  //achar campeonato pelo id
-    public ResponseEntity<Campeonato> findById(@PathVariable Integer id){
+    public ResponseEntity<Campeonato> findById(@PathVariable Long id){
         return ResponseEntity.ok(getCampeonatosService().findByIdOrThrowBackBadRequestException(id));
     }
     @PostMapping //criar novo campeonato
@@ -34,7 +34,7 @@ public class CampeonatoController {
         return ResponseEntity.ok(getCampeonatosService().save(campeonatoPostRequestBody));
     }
     @DeleteMapping(path = "/{id}") //deletar um campeonato
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         getCampeonatosService().delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -3,7 +3,7 @@ package campeonato.exercicio.campeonato.request;
 import lombok.Data;
 @Data
 public class CampeonatoPutRequestBody {
-    Integer id;
+    Long id;
     String nome;
     Integer ano;
     Integer timeMand;

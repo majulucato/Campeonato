@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class JogoPostRequestBody {
-    Integer id;
+    Long id;
     String nomePart;// time_mand x time_visit
     Time timeMandante;
     Time timeVisitante;

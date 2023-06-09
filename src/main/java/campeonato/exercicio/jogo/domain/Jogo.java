@@ -21,6 +21,10 @@ public class Jogo {
     private Long id;
     @Column(name = "nome_part")
     private String nomePart;// time_mand x time_visit
+    @Column(name = "gols_mand")
+    private Integer golsMand;
+    @Column(name = "gols_visit")
+    private Integer golsVisit;
     @ManyToOne
     @JoinColumn(name = "time_mandante_id")
     private Time timeMandante;

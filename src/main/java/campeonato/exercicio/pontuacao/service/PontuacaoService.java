@@ -1,11 +1,9 @@
 package campeonato.exercicio.pontuacao.service;
 
-import campeonato.exercicio.campeonato.domain.Campeonato;
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
 import campeonato.exercicio.pontuacao.request.PontuacaoPostRequestBody;
 import campeonato.exercicio.pontuacao.request.PontuacaoPutRequestBody;
-import campeonato.exercicio.time.domain.Time;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -46,14 +44,5 @@ public class PontuacaoService {
                 .quantGolsFeitos(pontuacaoPostRequestBody.getQuantGolsFeitos()).quantGolsSofridos(pontuacaoPostRequestBody.getQuantGolsSofridos())
                 .quantDerrotas(pontuacaoPostRequestBody.getQuantDerrotas()).quantVitorias(pontuacaoPostRequestBody.getQuantVitorias())
                 .build());
-    }private Long id;
-    private Time nomeTime;
-    private Integer pont;
-    private Integer quantJogos;
-    private Integer quantVitorias;
-    private Integer quantDerrotas;
-    private Integer quantEmpates;
-    private Integer quantGolsFeitos;
-    private Integer quantGolsSofridos;
-    private Campeonato campeonato;
+    }
 }
