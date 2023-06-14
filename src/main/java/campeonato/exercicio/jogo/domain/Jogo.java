@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @Table(name="jogos")
 public class Jogo {
     @Id
@@ -21,7 +21,7 @@ public class Jogo {
     @Column(name = "id")
     private Long id;
     @Column(name = "nome_part")
-    private String nomePart;// time_mand x time_visit
+    private String nomePart;   // time_mand x time_visit
     @Column(name = "gols_mand")
     @Min(value = 0)
     private Integer golsMand;
@@ -36,5 +36,5 @@ public class Jogo {
     private Time timeVisitante;
     @ManyToOne
     @JoinColumn(name = "campeonato_id")
-    Campeonato campeonato;//se null -> amistoso
+    Campeonato campeonato;   //se null -> amistoso
 }

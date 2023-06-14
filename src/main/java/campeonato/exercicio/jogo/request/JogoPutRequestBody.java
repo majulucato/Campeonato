@@ -10,7 +10,7 @@ public class JogoPutRequestBody {
     String nomePart;// time_mand x time_visit
     Integer golsMand;
     Integer golsVisit;
-    Time timeMandante;
-    Time timeVisitante;
-    Campeonato campeonato;
+    Long timeMandante;
+    Long timeVisitante;
+    Long campeonato;
 }

@@ -88,7 +88,7 @@ public class CampeonatoService {
         campeonatoSalvo.setIniciado(true);
         campeonatoSalvo.setFinalizado(false);
         campeonatosRepository.save(campeonatoSalvo);
-        addTimeAoCampeonato(campeonatoSalvo,campeonatoDTO);
+        createPontuacaoDoTimeNoCampeonato(campeonatoSalvo,campeonatoDTO);
     }
     public void validateStartCampeonato(CampeonatoDTO campeonatoDTO){
         validateIniciadoOuFinalizado(campeonatoDTO);
@@ -127,7 +127,7 @@ public class CampeonatoService {
         }
     }
     @Transactional
-    public void addTimeAoCampeonato(Campeonato campeonato, CampeonatoDTO campeonatoDTO){
+    public void createPontuacaoDoTimeNoCampeonato(Campeonato campeonato, CampeonatoDTO campeonatoDTO){
         for (int i = 0; i < campeonatoDTO.getTime().size(); i++) {
             Pontuacao pontuacao = createPontuacao(campeonato, timeService
                     .findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)));
