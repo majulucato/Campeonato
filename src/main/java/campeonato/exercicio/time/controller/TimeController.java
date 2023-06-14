@@ -28,7 +28,7 @@ public class TimeController {
         return ResponseEntity.ok(getTimesService().listAll());
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Time> findById(@PathVariable int id){
+    public ResponseEntity<Time> findById(@PathVariable long id){
         return ResponseEntity.ok(getTimesService().findByIdOrThrowBackBadRequestException(id));
     }
     @PostMapping
@@ -36,7 +36,7 @@ public class TimeController {
         return ResponseEntity.ok(getTimesService().save(timePostRequestBody));
     }
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable long id){
         getTimesService().delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -19,14 +19,14 @@ public interface CampeonatosRepository extends JpaRepository<Campeonato, Integer
     @Query(nativeQuery = true,
             value = "SELECT COUNT(*) > 0 " +
                     "FROM campeonato c " +
-                    "WHERE c.id = :campeonato_id " +
+                    "WHERE c.campeonato_id = :campeonatoId " +
                     "AND c.iniciado = true")
-    boolean statusIniciado(@Param("campeonato_id")Long id);
+    boolean statusIniciado(@Param("campeonatoId")Long id);
 
     @Query(nativeQuery = true,
             value = "SELECT COUNT(*) > 0 " +
                     "FROM campeonato c " +
-                    "WHERE c.id = :campeonato_id " +
+                    "WHERE c.campeonato_id = :campeonatoId " +
                     "AND c.finalizado = true")
-    boolean statusFinalizado(@Param("campeonato_id ")Long id);
+    boolean statusFinalizado(@Param("campeonatoId")Long id);
 }

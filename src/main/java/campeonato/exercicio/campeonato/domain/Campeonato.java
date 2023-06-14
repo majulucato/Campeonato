@@ -1,6 +1,7 @@
 package campeonato.exercicio.campeonato.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,15 +17,17 @@ import org.springframework.lang.NonNull;
 public class Campeonato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "campeonato_id")
+    private Long campeonatoId;
+    @NotEmpty
     @Column(name = "nome")
     private String nome;
     @NonNull
     @Column(name = "ano")
     private Integer ano;
     @Column(name = "iniciado")
-    private Boolean iniciado = false;  //  1-Iniciado   0-Finalizado
+    private Boolean iniciado=false; //  1-Iniciado   0-Finalizado
     @Column(name = "finalizado")
-    private Boolean finalizado = false;
+    private Boolean finalizado=false;
+
 }

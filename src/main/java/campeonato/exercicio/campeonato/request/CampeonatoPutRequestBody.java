@@ -1,12 +1,13 @@
 package campeonato.exercicio.campeonato.request;
 
+import campeonato.exercicio.campeonato.dto.CampeonatoDTO;
 import lombok.Data;
 @Data
 public class CampeonatoPutRequestBody {
-    Long id;
-    String nome;
-    Integer ano;
-    Integer timeMand;
-    Integer timeVisit;
-    Boolean status;  //  I-iniciado   F-finalizado
+    private Long id;
+    private String nome;
+    private Integer ano;
+    private Boolean iniciado;
+    private Boolean finalizado;
+    private CampeonatoDTO campeonatoDTO;
 }

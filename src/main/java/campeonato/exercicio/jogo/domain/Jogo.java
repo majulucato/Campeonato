@@ -3,6 +3,7 @@ package campeonato.exercicio.jogo.domain;
 import campeonato.exercicio.campeonato.domain.Campeonato;
 import campeonato.exercicio.time.domain.Time;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +23,10 @@ public class Jogo {
     @Column(name = "nome_part")
     private String nomePart;// time_mand x time_visit
     @Column(name = "gols_mand")
+    @Min(value = 0)
     private Integer golsMand;
     @Column(name = "gols_visit")
+    @Min(value = 0)
     private Integer golsVisit;
     @ManyToOne
     @JoinColumn(name = "time_mandante_id")
@@ -33,5 +36,5 @@ public class Jogo {
     private Time timeVisitante;
     @ManyToOne
     @JoinColumn(name = "campeonato_id")
-    Campeonato campeonato;
+    Campeonato campeonato;//se null -> amistoso
 }

@@ -2,7 +2,6 @@ package campeonato.exercicio.pontuacao.service;
 
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
-import campeonato.exercicio.pontuacao.request.PontuacaoPostRequestBody;
 import campeonato.exercicio.pontuacao.request.PontuacaoPutRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,17 +31,31 @@ public class PontuacaoService {
     }
     public void replace(PontuacaoPutRequestBody pontuacaoPutRequestBody) {
         Pontuacao pontSalva = findByIdOrThrowBackBadRequestException(pontuacaoPutRequestBody.getId());
-        Pontuacao pont = Pontuacao.builder().id(pontSalva.getId())
+        Pontuacao partida = Pontuacao.builder().id(pontSalva.getId())
                 .quantGolsFeitos(pontuacaoPutRequestBody.getQuantGolsFeitos()).quantGolsSofridos(pontuacaoPutRequestBody.getQuantGolsSofridos())
-                .quantDerrotas(pontuacaoPutRequestBody.getQuantDerrotas()).quantVitorias(pontuacaoPutRequestBody.getQuantVitorias())
-                .pont(pontuacaoPutRequestBody.getPont())
                 .build();
-        getPontuacaoRepository().save(pont);
+        atualizarPlacar(pontuacaoPutRequestBody);
+        getPontuacaoRepository().save(partida);
     }
-    public Pontuacao save(PontuacaoPostRequestBody pontuacaoPostRequestBody) {
-        return getPontuacaoRepository().save(Pontuacao.builder().nomeTime(pontuacaoPostRequestBody.getNomeTime()).pont(pontuacaoPostRequestBody.getPont())
-                .quantGolsFeitos(pontuacaoPostRequestBody.getQuantGolsFeitos()).quantGolsSofridos(pontuacaoPostRequestBody.getQuantGolsSofridos())
-                .quantDerrotas(pontuacaoPostRequestBody.getQuantDerrotas()).quantVitorias(pontuacaoPostRequestBody.getQuantVitorias())
-                .build());
+
+    public void atualizarPlacar(PontuacaoPutRequestBody pontuacaoPutRequestBody){
+        if(pontuacaoPutRequestBody.getQuantGolsFeitos()>pontuacaoPutRequestBody.getQuantGolsSofridos()){
+            pontuacaoPutRequestBody.setQuantVitorias(pontuacaoPutRequestBody.getQuantVitorias()+1);
+        }
+        if(pontuacaoPutRequestBody.getQuantGolsFeitos()==pontuacaoPutRequestBody.getQuantGolsSofridos()){
+            pontuacaoPutRequestBody.setQuantEmpates(pontuacaoPutRequestBody.getQuantEmpates()+1);
+        }
+        if(pontuacaoPutRequestBody.getQuantGolsFeitos()<pontuacaoPutRequestBody.getQuantGolsSofridos()){
+            pontuacaoPutRequestBody.setQuantDerrotas(pontuacaoPutRequestBody.getQuantDerrotas()+1);
+        }
+        pontuacaoPutRequestBody.setQuantJogos(pontuacaoPutRequestBody.getQuantVitorias()+ pontuacaoPutRequestBody.getQuantDerrotas()
+                + pontuacaoPutRequestBody.getQuantEmpates());
+        pontuacaoPutRequestBody.setPont((pontuacaoPutRequestBody.getQuantVitorias()*3)
+                +(pontuacaoPutRequestBody.getQuantEmpates()*1)+(pontuacaoPutRequestBody.getQuantDerrotas()*0));
     }
+    /*
+    private Long id;
+    private String nomeTime;
+    private Campeonato campeonato;
+    */
 }

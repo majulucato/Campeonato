@@ -8,6 +8,8 @@ import lombok.Data;
 public class JogoPutRequestBody {
     Long id;
     String nomePart;// time_mand x time_visit
+    Integer golsMand;
+    Integer golsVisit;
     Time timeMandante;
     Time timeVisitante;
     Campeonato campeonato;

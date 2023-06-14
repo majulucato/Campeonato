@@ -1,7 +1,6 @@
 package campeonato.exercicio.pontuacao.controller;
 
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
-import campeonato.exercicio.pontuacao.request.PontuacaoPostRequestBody;
 import campeonato.exercicio.pontuacao.request.PontuacaoPutRequestBody;
 import campeonato.exercicio.pontuacao.service.PontuacaoService;
 import lombok.extern.log4j.Log4j2;
@@ -33,10 +32,6 @@ public class PontuacaoController {
     @GetMapping(path = "/find")
     public ResponseEntity<List<Pontuacao>> findByNomeTime(@RequestParam String nomeTime) {
         return ResponseEntity.ok(pontuacaoService.findByNomeTime(nomeTime));
-    }
-    @PostMapping
-    public ResponseEntity<Pontuacao> save(@RequestBody PontuacaoPostRequestBody pontuacaoPostRequestBody){
-        return ResponseEntity.ok(getPontuacaoService().save(pontuacaoPostRequestBody));
     }
     @DeleteMapping
     public ResponseEntity<Void> deleteAll(){

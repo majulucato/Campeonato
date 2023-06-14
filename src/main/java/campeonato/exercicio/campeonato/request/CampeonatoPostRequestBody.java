@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class CampeonatoPostRequestBody {
-    private Long id;
     private String nome;
     private Integer ano;
+    private Boolean iniciado;
+    private Boolean finalizado;
     private CampeonatoDTO campeonatoDTO;
 }

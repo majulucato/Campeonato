@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class PontuacaoPutRequestBody {
     private Long id;
-    private Time nomeTime;
     private Integer pont;
     private Integer quantJogos;
     private Integer quantVitorias;

@@ -23,11 +23,17 @@ public class TimeService {
     public List<Time> listAll() {
         return getTimeRepository().findAll();
     }
-    public Time findByIdOrThrowBackBadRequestException(Integer id) {
+    public Time findByIdOrThrowBackBadRequestException(Long id) {
         return getTimeRepository().findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time não encontrado"));
     }
-    public void delete(Integer id){
+    public void findByNomeOrThrowBackBadRequestException(TimePostRequestBody timePostRequestBody) {
+        if (timeRepository.existsByNome(timePostRequestBody.getNome())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time "
+                    +timePostRequestBody.getNome()+" já cadastrado");
+        }
+    }
+    public void delete(Long id){
         getTimeRepository().delete(findByIdOrThrowBackBadRequestException(id));
     }
 
@@ -40,7 +46,7 @@ public class TimeService {
         timeRepository.save(time);
     }
     public Time save(TimePostRequestBody timePostRequestBody) {
+        findByNomeOrThrowBackBadRequestException(timePostRequestBody);
         return timeRepository.save(Time.builder().nome(timePostRequestBody.getNome()).build());
     }
-
 }

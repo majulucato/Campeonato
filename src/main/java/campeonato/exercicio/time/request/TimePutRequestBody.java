@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class TimePutRequestBody {
     private String nome;
-    private Integer id;
+    private Long id;
 }
