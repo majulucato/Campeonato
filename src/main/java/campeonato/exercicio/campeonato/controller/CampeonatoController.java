@@ -34,6 +34,10 @@ public class CampeonatoController {
     public ResponseEntity<Campeonato> save(@RequestBody CampeonatoPostRequestBody campeonatoPostRequestBody){
         return ResponseEntity.ok(getCampeonatosService().save(campeonatoPostRequestBody));
     }
+    @PostMapping(path = "/{id}") //adicionar times ao campeonato
+    public ResponseEntity<CampeonatoDTO> addTimes(@RequestBody CampeonatoDTO campeonatoDTO){
+        return ResponseEntity.ok(getCampeonatosService().addTimes(campeonatoDTO));
+    }
     @DeleteMapping(path = "/{id}") //deletar um campeonato
     public ResponseEntity<Void> delete(@PathVariable Long id){
         getCampeonatosService().delete(id);
@@ -45,13 +49,13 @@ public class CampeonatoController {
         getCampeonatosService().replace(campeonatoPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping(path = "/{id}/start")
+    @PutMapping(path = "/{id}/start") //iniciar campeonato
     public ResponseEntity<Void> startCampeonato(@PathVariable Long id,
                                                 @RequestBody @Validated CampeonatoDTO campeonatoDTO){
         campeonatoService.startCampeonato(campeonatoDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @PutMapping(path = "/{id}/finish")
+    @PutMapping(path = "/{id}/finish") //finalizar campeonato
     public ResponseEntity<Void> finishCampeonato(@PathVariable Long id){
         campeonatoService.finishCampeonato(id);
         return new ResponseEntity(HttpStatus.OK);

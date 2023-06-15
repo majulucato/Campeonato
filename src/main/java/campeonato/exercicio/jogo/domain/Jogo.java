@@ -4,6 +4,7 @@ import campeonato.exercicio.campeonato.domain.Campeonato;
 import campeonato.exercicio.time.domain.Time;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +37,8 @@ public class Jogo {
     private Time timeVisitante;
     @ManyToOne
     @JoinColumn(name = "campeonato_id")
-    Campeonato campeonato;   //se null -> amistoso
+    Campeonato campeonatoId;   //se null -> amistoso
+    @Column(name = "status_partida")
+    @NotNull
+    private Boolean statusPartida;
 }

@@ -5,11 +5,13 @@ import campeonato.exercicio.time.request.TimePostRequestBody;
 import campeonato.exercicio.time.request.TimePutRequestBody;
 import campeonato.exercicio.time.service.TimeService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 @RestController
 @RequestMapping("/times")
 @Log4j2
@@ -24,8 +26,9 @@ public class TimeController {
     private final TimeService timeService;
 
     @GetMapping
-    public ResponseEntity<List<Time>> times(){
-        return ResponseEntity.ok(getTimesService().listAll());
+    public ResponseEntity<Page<Time>> times(@PageableDefault(page=0, size=10,
+            sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.ok(timeService.listAll(pageable));
     }
     @GetMapping(path = "/{id}")
     public ResponseEntity<Time> findById(@PathVariable long id){

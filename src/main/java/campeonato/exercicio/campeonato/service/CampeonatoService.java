@@ -5,6 +5,10 @@ import campeonato.exercicio.campeonato.dto.CampeonatoDTO;
 import campeonato.exercicio.campeonato.repository.CampeonatosRepository;
 import campeonato.exercicio.campeonato.request.CampeonatoPostRequestBody;
 import campeonato.exercicio.campeonato.request.CampeonatoPutRequestBody;
+import campeonato.exercicio.jogo.domain.Jogo;
+import campeonato.exercicio.jogo.repository.JogoRepository;
+import campeonato.exercicio.jogo.request.JogoPutRequestBody;
+import campeonato.exercicio.jogo.service.JogoService;
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
 import campeonato.exercicio.time.domain.Time;
@@ -27,6 +31,7 @@ public class CampeonatoService {
     private final CampeonatosRepository campeonatosRepository;
     private final TimeService timeService;
     private final PontuacaoRepository pontuacaoRepository;
+    private final JogoRepository jogoRepository;
 
     public CampeonatosRepository getCampeonatosRepository() {
         return campeonatosRepository;
@@ -77,7 +82,7 @@ public class CampeonatoService {
     public void sameTime(CampeonatoDTO campeonatoDTO){
         Set<Long> set = new HashSet<>();
         campeonatoDTO.getTime().forEach(time -> { if(!set.add(time)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O time "+time+ " já está cadastrado neste campeonato");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O time "+time+ " já está na lista para ser adicionado ao campeonato");
             }
         });
     }
@@ -88,16 +93,14 @@ public class CampeonatoService {
         campeonatoSalvo.setIniciado(true);
         campeonatoSalvo.setFinalizado(false);
         campeonatosRepository.save(campeonatoSalvo);
-        createPontuacaoDoTimeNoCampeonato(campeonatoSalvo,campeonatoDTO);
     }
     public void validateStartCampeonato(CampeonatoDTO campeonatoDTO){
-        validateIniciadoOuFinalizado(campeonatoDTO);
+        validateIniciadoOuFinalizado(campeonatoDTO.getCampeonatoId());
         validateMinTimes(campeonatoDTO);
         sameTime(campeonatoDTO);
     }
     public void finishCampeonato(Long id) {
-        //validar se todos ja jogaram entre si 2x
-        //validar se o campeonato estava iniciado (validateFinalizadoOuNaoIniciado)
+        validateFinishCampeonato(id);
         Campeonato campeonatoSalvo = findByIdOrThrowBackBadRequestException(id);
         campeonatoSalvo.setIniciado(false);
         campeonatoSalvo.setFinalizado(true);
@@ -105,38 +108,38 @@ public class CampeonatoService {
     }
     public void validateFinishCampeonato(Long id){
         validateFinalizadoOuNaoIniciado(id);
-        //validar status do campeonato
+        //validar status do campeonato(FinalizadoOuNaoIniciado)   ok
+        // validar se todos ja jogaram entre si 2x
     }
 
     public void validateFinalizadoOuNaoIniciado(long id) {
         if (campeonatosRepository.statusFinalizado(id) || (!campeonatosRepository.statusIniciado(id) &&
                 !campeonatosRepository.statusFinalizado(id))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campeonato já finalizado ou não inicializado");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campeonato já finalizado ou não iniciado");
         }
     }
-    public void validateIniciadoOuFinalizado(CampeonatoDTO campeonatoDTO) {
-        if (campeonatosRepository.statusIniciado(campeonatoDTO.getCampeonatoId()) ||
-                campeonatosRepository.statusFinalizado(campeonatoDTO.getCampeonatoId())) {
+    public void validateIniciadoOuFinalizado(long id) {
+        if (campeonatosRepository.statusIniciado(id) || campeonatosRepository.statusFinalizado(id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campeonato já iniciado ou finalizado");
         }
     }
     public void validateMinTimes(CampeonatoDTO campeonatoDTO){
         if (campeonatoDTO.getTime().size() < 4){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Quantidade Mínima de participantes para o campeonato não atingida");
+                    "Quantidade mínima de participantes para o campeonato não atingida");
         }
     }
     @Transactional
-    public void createPontuacaoDoTimeNoCampeonato(Campeonato campeonato, CampeonatoDTO campeonatoDTO){
+    public void createPontuacaoDoTimeNoCampeonato(CampeonatoDTO campeonatoDTO){
         for (int i = 0; i < campeonatoDTO.getTime().size(); i++) {
-            Pontuacao pontuacao = createPontuacao(campeonato, timeService
+            Pontuacao pontuacao = createPontuacao(campeonatoDTO, timeService
                     .findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)));
             pontuacaoRepository.save(pontuacao);
         }
     }
-     private Pontuacao createPontuacao(Campeonato campeonato, Time time) {
+     private Pontuacao createPontuacao(CampeonatoDTO campeonatoDTO, Time time) {
          Pontuacao pontuacao = new Pontuacao();
-         pontuacao.setCampeonato(campeonato);
+         pontuacao.setCampeonato(findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId()));
          pontuacao.setNomeTime(time);
          pontuacao.setPont(0);
          pontuacao.setQuantJogos(0);
@@ -147,4 +150,44 @@ public class CampeonatoService {
          pontuacao.setQuantGolsSofridos(0);
          return pontuacao;
      }
+     @Transactional
+    public CampeonatoDTO addTimes(CampeonatoDTO campeonatoDTO) {      //ele adiciona mas mesmo assim retorna null
+        findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId());
+        sameTime(campeonatoDTO);
+        CampeonatoDTO newList = new CampeonatoDTO();
+        newList.setCampeonatoId(campeonatoDTO.getCampeonatoId());
+        newList.setTime(campeonatoDTO.getTime());
+        createPontuacaoDoTimeNoCampeonato(campeonatoDTO);
+        createSetTimeMandante(campeonatoDTO);
+        startCampeonato(campeonatoDTO);
+        return newList;
+    }
+    public Jogo createPartidaComoTimeM(CampeonatoDTO campeonatoDTO, Time timeM, Time timeV){
+
+        Jogo partida = new Jogo();
+
+        partida.setTimeMandante(timeService.findByIdOrThrowBackBadRequestException(timeM.getId()));
+        partida.setTimeVisitante(timeService.findByIdOrThrowBackBadRequestException(timeV.getId()));
+        partida.setGolsMand(0);
+        partida.setGolsVisit(0);
+        partida.setCampeonatoId(findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId()));
+        partida.setNomePart(timeService.findByIdOrThrowBackBadRequestException(partida.getTimeMandante().getId()).getNome()
+                +" x "+timeService.findByIdOrThrowBackBadRequestException(partida.getTimeVisitante().getId()).getNome());
+        partida.setStatusPartida(false);
+
+        return jogoRepository.save(partida);
+    }
+    public void createSetTimeMandante(CampeonatoDTO campeonatoDTO){
+        for (int i = 0; i < (campeonatoDTO.getTime().size()); i++){
+            for (int j=0; j < (campeonatoDTO.getTime().size()); j++){
+                if (timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)).getId()!=
+                        timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(j)).getId()){
+                    Jogo jogo = createPartidaComoTimeM(campeonatoDTO,
+                            timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)),
+                            timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(j)));
+                    jogoRepository.save(jogo);
+                }
+            }
+        }
+    }
 }
