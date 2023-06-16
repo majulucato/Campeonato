@@ -2,14 +2,12 @@ package campeonato.exercicio.pontuacao.controller;
 
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.service.PontuacaoService;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
 @RequestMapping("pontuacao")
-@Log4j2
 //controles
 public class PontuacaoController {
     public PontuacaoController(PontuacaoService pontuacaoService) {
@@ -20,7 +18,7 @@ public class PontuacaoController {
         return pontuacaoService;
     }
     @GetMapping
-    public ResponseEntity<List<Pontuacao>> times(){
+    public ResponseEntity<List<Pontuacao>> listAll(){
         return ResponseEntity.ok(getPontuacaoService().listAll());
     }
     @GetMapping(path = "/{id}")
@@ -28,8 +26,7 @@ public class PontuacaoController {
         return ResponseEntity.ok(getPontuacaoService().findByIdOrThrowBackBadRequestException(id));
     }
     @GetMapping(path = "/find")
-    public ResponseEntity<List<Pontuacao>> findByNomeTime(@RequestParam String nomeTime) {
-        return ResponseEntity.ok(pontuacaoService.findByNomeTime(nomeTime));
+    public ResponseEntity<List<Pontuacao>> findByNomeTime(@RequestParam String timeId) {
+        return ResponseEntity.ok(pontuacaoService.findByTime(timeId));
     }
-
 }

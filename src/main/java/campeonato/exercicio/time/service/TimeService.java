@@ -41,7 +41,7 @@ public class TimeService {
         Time timeSalvo = findByIdOrThrowBackBadRequestException(timePutRequestBody.getId());
         findByNomeOrThrowBackBadRequestException(timePutRequestBody.getNome());
         Time time = Time.builder()
-                .id(timeSalvo.getId())
+                .timeId(timeSalvo.getTimeId())
                 .nome(timePutRequestBody.getNome())
                 .build();
 

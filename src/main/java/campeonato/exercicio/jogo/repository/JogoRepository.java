@@ -15,6 +15,12 @@ public interface JogoRepository extends JpaRepository<Jogo,Integer> {
     boolean existsJogo(@Param("campeonatoId") Long campeonatoId,
                         @Param("timeMandante") Long timeMandante,
                         @Param("timeVisitante") Long timeVisitante);
+    @Query(nativeQuery = true,
+            value = "SELECT count(*)>0 " +
+                    "FROM jogos j " +
+                    "WHERE j.campeonato_id = :campeonatoId " +
+                    "AND j.status_partida = true")
+    boolean finishJogos(@Param("campeonatoId") Long campeonatoId);
 
     @Query(nativeQuery = true,
             value = "SELECT count(*) > 0 " +
@@ -23,4 +29,5 @@ public interface JogoRepository extends JpaRepository<Jogo,Integer> {
                     "AND j.time_visitante_id = :timeVisitante")
     boolean getID(@Param("timeMandante") Long timeMandante,
                        @Param("timeVisitante") Long timeVisitante);
+
 }

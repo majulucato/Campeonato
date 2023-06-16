@@ -7,8 +7,6 @@ import campeonato.exercicio.campeonato.request.CampeonatoPostRequestBody;
 import campeonato.exercicio.campeonato.request.CampeonatoPutRequestBody;
 import campeonato.exercicio.jogo.domain.Jogo;
 import campeonato.exercicio.jogo.repository.JogoRepository;
-import campeonato.exercicio.jogo.request.JogoPutRequestBody;
-import campeonato.exercicio.jogo.service.JogoService;
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
 import campeonato.exercicio.time.domain.Time;
@@ -139,8 +137,8 @@ public class CampeonatoService {
     }
      private Pontuacao createPontuacao(CampeonatoDTO campeonatoDTO, Time time) {
          Pontuacao pontuacao = new Pontuacao();
-         pontuacao.setCampeonato(findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId()));
-         pontuacao.setNomeTime(time);
+         pontuacao.setCampeonatoId(findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId()));
+         pontuacao.setTimeId(time);
          pontuacao.setPont(0);
          pontuacao.setQuantJogos(0);
          pontuacao.setQuantVitorias(0);
@@ -166,13 +164,13 @@ public class CampeonatoService {
 
         Jogo partida = new Jogo();
 
-        partida.setTimeMandante(timeService.findByIdOrThrowBackBadRequestException(timeM.getId()));
-        partida.setTimeVisitante(timeService.findByIdOrThrowBackBadRequestException(timeV.getId()));
+        partida.setTimeMandante(timeService.findByIdOrThrowBackBadRequestException(timeM.getTimeId()));
+        partida.setTimeVisitante(timeService.findByIdOrThrowBackBadRequestException(timeV.getTimeId()));
         partida.setGolsMand(0);
         partida.setGolsVisit(0);
         partida.setCampeonatoId(findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId()));
-        partida.setNomePart(timeService.findByIdOrThrowBackBadRequestException(partida.getTimeMandante().getId()).getNome()
-                +" x "+timeService.findByIdOrThrowBackBadRequestException(partida.getTimeVisitante().getId()).getNome());
+        partida.setNomePart(timeService.findByIdOrThrowBackBadRequestException(partida.getTimeMandante().getTimeId()).getNome()
+                +" x "+timeService.findByIdOrThrowBackBadRequestException(partida.getTimeVisitante().getTimeId()).getNome());
         partida.setStatusPartida(false);
 
         return jogoRepository.save(partida);
@@ -180,8 +178,8 @@ public class CampeonatoService {
     public void createSetTimeMandante(CampeonatoDTO campeonatoDTO){
         for (int i = 0; i < (campeonatoDTO.getTime().size()); i++){
             for (int j=0; j < (campeonatoDTO.getTime().size()); j++){
-                if (timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)).getId()!=
-                        timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(j)).getId()){
+                if (timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)).getTimeId()!=
+                        timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(j)).getTimeId()){
                     Jogo jogo = createPartidaComoTimeM(campeonatoDTO,
                             timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(i)),
                             timeService.findByIdOrThrowBackBadRequestException(campeonatoDTO.getTime().get(j)));

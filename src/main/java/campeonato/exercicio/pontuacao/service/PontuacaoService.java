@@ -2,6 +2,7 @@ package campeonato.exercicio.pontuacao.service;
 
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
+import campeonato.exercicio.time.domain.Time;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,10 @@ public class PontuacaoService {
         return getPontuacaoRepository().findById(Math.toIntExact(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pontuação do time não encontrada"));
     }
-    public List<Pontuacao> findByNomeTime(String nomeTime) {
-        return pontuacaoRepository.findByNomeTime(nomeTime);
+    public List<Pontuacao> findByTime(String timeId) {
+        return pontuacaoRepository.findByTime(timeId);
+    }
+    public Pontuacao findByCampeonatoAndTime(Long campeonatoId, Long timeId) {
+        return pontuacaoRepository.findByCampeonatoAndTime(campeonatoId, timeId);
     }
 }

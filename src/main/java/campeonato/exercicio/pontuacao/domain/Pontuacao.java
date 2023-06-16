@@ -18,8 +18,8 @@ public class Pontuacao {
     @Column(name = "id")
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "nome_time_id")
-    private Time nomeTime;
+    @JoinColumn(name = "time_id")
+    private Time timeId;
     @Column(name = "pont")
     private Integer pont;
     @Column(name = "quant_jogos")
@@ -36,5 +36,5 @@ public class Pontuacao {
     private Integer quantGolsSofridos;
     @ManyToOne
     @JoinColumn(name = "campeonato_id")
-    private Campeonato campeonato;
+    private Campeonato campeonatoId;
 }

@@ -4,6 +4,7 @@ import campeonato.exercicio.campeonato.dto.CampeonatoDTO;
 import campeonato.exercicio.jogo.domain.Jogo;
 import campeonato.exercicio.jogo.request.JogoPostRequestBody;
 import campeonato.exercicio.jogo.request.JogoPutRequestBody;
+import campeonato.exercicio.jogo.request.UpdatePartida;
 import campeonato.exercicio.jogo.service.JogoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,11 @@ public class JogoController {
     @PutMapping
     public ResponseEntity<Void> replace(@RequestBody JogoPutRequestBody jogoPutRequestBody){
         getJogosService().replace(jogoPutRequestBody);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PutMapping(path = "/finish")
+    public ResponseEntity<Void> updatePartida(@RequestBody UpdatePartida updatePartida){
+        getJogosService().updatePartida(updatePartida);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

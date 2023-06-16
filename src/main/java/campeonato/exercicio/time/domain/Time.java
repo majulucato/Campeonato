@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class Time {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "time_id")
+    private Long timeId;
     @Column(name = "nome")
     private String nome;
 }
