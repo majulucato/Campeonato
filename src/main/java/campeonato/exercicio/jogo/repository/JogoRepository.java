@@ -19,15 +19,7 @@ public interface JogoRepository extends JpaRepository<Jogo,Integer> {
             value = "SELECT count(*)>0 " +
                     "FROM jogos j " +
                     "WHERE j.campeonato_id = :campeonatoId " +
-                    "AND j.status_partida = true")
+                    "AND j.status_partida = false")
     boolean finishJogos(@Param("campeonatoId") Long campeonatoId);
-
-    @Query(nativeQuery = true,
-            value = "SELECT count(*) > 0 " +
-                    "FROM jogos j " +
-                    "WHERE j.time_mandante_id = :timeMandante " +
-                    "AND j.time_visitante_id = :timeVisitante")
-    boolean getID(@Param("timeMandante") Long timeMandante,
-                       @Param("timeVisitante") Long timeVisitante);
 
 }

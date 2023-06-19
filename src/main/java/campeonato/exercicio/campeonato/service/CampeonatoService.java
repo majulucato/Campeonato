@@ -92,11 +92,13 @@ public class CampeonatoService {
         campeonatoSalvo.setFinalizado(false);
         campeonatosRepository.save(campeonatoSalvo);
     }
+    @Transactional
     public void validateStartCampeonato(CampeonatoDTO campeonatoDTO){
         validateIniciadoOuFinalizado(campeonatoDTO.getCampeonatoId());
         validateMinTimes(campeonatoDTO);
         sameTime(campeonatoDTO);
     }
+    @Transactional
     public void finishCampeonato(Long id) {
         validateFinishCampeonato(id);
         Campeonato campeonatoSalvo = findByIdOrThrowBackBadRequestException(id);
@@ -105,9 +107,15 @@ public class CampeonatoService {
         campeonatosRepository.save(campeonatoSalvo);
     }
     public void validateFinishCampeonato(Long id){
-        validateFinalizadoOuNaoIniciado(id);
-        //validar status do campeonato(FinalizadoOuNaoIniciado)   ok
-        // validar se todos ja jogaram entre si 2x
+        validateFinalizadoOuNaoIniciado(id); //OK
+        validateFinishGames(id); //NÃO VAI
+    }
+
+    private void validateFinishGames(Long id) {
+        if(jogoRepository.finishJogos(id)==true){
+            System.out.println(jogoRepository.finishJogos(id));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Partidas ainda não finalizadas");
+        }
     }
 
     public void validateFinalizadoOuNaoIniciado(long id) {

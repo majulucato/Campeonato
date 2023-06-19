@@ -104,7 +104,6 @@ public class JogoService {
         update.setGolsVisit(updatePartida.getGolsVisit());
         update.setStatusPartida(true);
         jogoRepository.save(update);
-
         winLoseOrDraw(update);
     }
 
