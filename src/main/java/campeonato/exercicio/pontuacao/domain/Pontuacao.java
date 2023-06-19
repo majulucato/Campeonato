@@ -3,7 +3,10 @@ package campeonato.exercicio.pontuacao.domain;
 import campeonato.exercicio.campeonato.domain.Campeonato;
 import campeonato.exercicio.time.domain.Time;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //http://localhost:8080/pontuacao/
 @Data

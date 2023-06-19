@@ -1,6 +1,5 @@
 package campeonato.exercicio.jogo.controller;
 
-import campeonato.exercicio.campeonato.dto.CampeonatoDTO;
 import campeonato.exercicio.jogo.domain.Jogo;
 import campeonato.exercicio.jogo.request.JogoPostRequestBody;
 import campeonato.exercicio.jogo.request.JogoPutRequestBody;

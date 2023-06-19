@@ -1,7 +1,5 @@
 package campeonato.exercicio.jogo.request;
 
-import campeonato.exercicio.campeonato.domain.Campeonato;
-import campeonato.exercicio.time.domain.Time;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

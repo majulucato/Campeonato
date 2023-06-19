@@ -26,7 +26,7 @@ public class Campeonato {
     @Column(name = "ano")
     private Integer ano;
     @Column(name = "iniciado")
-    private Boolean iniciado=false; //  1-Iniciado   0-Finalizado
+    private Boolean iniciado=false;
     @Column(name = "finalizado")
     private Boolean finalizado=false;
 

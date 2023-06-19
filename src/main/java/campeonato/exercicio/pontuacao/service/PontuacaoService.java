@@ -2,7 +2,6 @@ package campeonato.exercicio.pontuacao.service;
 
 import campeonato.exercicio.pontuacao.domain.Pontuacao;
 import campeonato.exercicio.pontuacao.repository.PontuacaoRepository;
-import campeonato.exercicio.time.domain.Time;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

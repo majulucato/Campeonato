@@ -107,8 +107,8 @@ public class CampeonatoService {
         campeonatosRepository.save(campeonatoSalvo);
     }
     public void validateFinishCampeonato(Long id){
-        validateFinalizadoOuNaoIniciado(id); //OK
-        validateFinishGames(id); //NÃO VAI
+        validateFinalizadoOuNaoIniciado(id);
+        validateFinishGames(id);
     }
 
     private void validateFinishGames(Long id) {
@@ -157,7 +157,7 @@ public class CampeonatoService {
          return pontuacao;
      }
      @Transactional
-    public CampeonatoDTO addTimes(CampeonatoDTO campeonatoDTO) {      //ele adiciona mas mesmo assim retorna null
+    public CampeonatoDTO addTimes(CampeonatoDTO campeonatoDTO) {
         findByIdOrThrowBackBadRequestException(campeonatoDTO.getCampeonatoId());
         sameTime(campeonatoDTO);
         CampeonatoDTO newList = new CampeonatoDTO();
